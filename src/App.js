@@ -12,7 +12,7 @@ function App() {
 
     return (
         <div className="App">
-            <OperandForm url={new URL("http://localhost:8080/add")} receiveResult={receiveResultFromServer}/>
+            <OperandForm url={"http://localhost:8080/add"} receiveResult={receiveResultFromServer}/>
             {result ? <div className="border p-3">Result is {result}</div> : ""}
         </div>
     );

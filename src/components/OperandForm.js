@@ -31,8 +31,7 @@ export default function OperandForm(props) {
 
     function handleFormSubmission(event) {
         event.preventDefault();
-        props.url.search = new URLSearchParams([['left', left.toString()], ['right', right.toString()]]).toString();
-        fetch(props.url)
+        fetch(`${props.url}?left=${left}&right=${right}`)
             .then(handleResponse)
             .then(handleJson)
             .catch(handleError);
