@@ -4,7 +4,7 @@ import {useState} from "react";
 
 function App() {
 
-    const [result, setResult] = useState(null);
+    const [result, setResult] = useState("");
 
     function receiveResultFromServer(result) {
         setResult(result);

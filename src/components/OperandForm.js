@@ -27,6 +27,9 @@ export default function OperandForm(props) {
 
     function handleError(error) {
         alert(error.toString());
+        // exercise: replace this error message with message inside the page:
+        // create a div with bootstrap class "text-danger" to display the message
+        // how will you define this message? prop or state?
     }
 
     function handleFormSubmission(event) {
