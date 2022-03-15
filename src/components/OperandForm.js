@@ -44,12 +44,11 @@ export default function OperandForm(props) {
         <form className="border p-3" onSubmit={handleFormSubmission}>
             <div className="mb-3 col">
                 <label htmlFor="leftInput" className="form-label">Left operand:</label>
-                <input type="number" className="form-control" id="leftInput" value={left} onChange={handleLeftChanged}/>
+                <input type="number" className="form-control" id="leftInput" onChange={handleLeftChanged}/>
             </div>
             <div className="mb-3 col">
                 <label htmlFor="rightInput" className="form-label">Right operand:</label>
-                <input type="number" className="form-control" id="rightInput" value={right}
-                       onChange={handleRightChanged} />
+                <input type="number" className="form-control" id="rightInput" onChange={handleRightChanged} />
             </div>
             <button type="submit" className="btn btn-primary">Compute</button>
         </form>
