@@ -5,6 +5,7 @@ export default function OperandForm(props) {
 
     const [left, setLeft] = useState(0);
     const [right, setRight] = useState(0);
+    const [errorMessage, setErrorMessage] = useState("");
 
     function handleLeftChanged(event) {
         setLeft(parseInt(event.target.value));
@@ -26,10 +27,11 @@ export default function OperandForm(props) {
     }
 
     function handleError(error) {
-        alert(error.toString());
+        // alert(error.toString());
         // exercise: replace this error message with message inside the page:
         // create a div with bootstrap class "text-danger" to display the message
         // how will you define this message? prop or state?
+        setErrorMessage(error.toString());
     }
 
     function handleFormSubmission(event) {
@@ -42,6 +44,9 @@ export default function OperandForm(props) {
 
     return (
         <form className="border p-3" onSubmit={handleFormSubmission}>
+            <div className="mb-3 col text-danger">
+                {errorMessage}
+            </div>
             <div className="mb-3 col">
                 <label htmlFor="leftInput" className="form-label">Left operand:</label>
                 <input type="number" className="form-control" id="leftInput" onChange={handleLeftChanged}/>
