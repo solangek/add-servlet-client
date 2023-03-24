@@ -1,28 +1,20 @@
 import {useState} from "react";
 
 
-export default function OperandForm(props) {
+export default function OperandForm({url, receiveResult}) {
 
     const [left, setLeft] = useState(0);
     const [right, setRight] = useState(0);
 
-    function handleLeftChanged(event) {
-        setLeft(parseInt(event.target.value));
-    }
-
-    function handleRightChanged(event) {
-        setRight(parseInt(event.target.value));
-    }
-
     function handleResponse(response) {
         if (!response.ok) {
-            throw new Error(`Status not OK: ${response.status} ${response.statusText}`);
+            throw new Error(`Some error occured : ${response.status} ${response.statusText}`);
         }
         return response.json();
     }
 
     function handleJson(jsonObj) {
-        props.receiveResult(jsonObj.result);
+        receiveResult(jsonObj.result);
     }
 
     function handleError(error) {
@@ -38,19 +30,23 @@ export default function OperandForm(props) {
      */
     function handleFormSubmissionGet(event) {
         event.preventDefault();
-        let params = {
-            left: left,
-            right: right
-        };
-        fetch(`${props.url}?left=${left}&right=${right}`)
+
+        fetch(`${url}?left=${left}&right=${right}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            }
+
+        })
             .then(handleResponse)
             .then(handleJson)
             .catch(handleError);
     }
 
     /**
-     * same fetch using POST. note that we need to send content-type header
-     * as JSON due to some Servlet implementation of request parsing.
+     * same fetch using POST. note that we need to send content-type as application/x-www-form-urlencoded
+     * due to some Servlet implementation of request parsing.
      * If you want to test this function, replace the onSubmit field of the form
      * at line 78 with "handleFormSubmissionPost".
      * @param event
@@ -61,7 +57,7 @@ export default function OperandForm(props) {
             left: left,
             right: right
         };
-        fetch(props.url,  {
+        fetch(url,  {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded',
@@ -75,14 +71,20 @@ export default function OperandForm(props) {
     }
 
     return (
-        <form className="border p-3" onSubmit={handleFormSubmissionGet}>
+        <form className="border p-3" onSubmit={handleFormSubmissionPost}>
             <div className="mb-3 col">
                 <label htmlFor="leftInput" className="form-label">Left operand:</label>
-                <input type="number" className="form-control" id="leftInput" onChange={handleLeftChanged}/>
+                <input type="number"
+                       className="form-control"
+                       id="leftInput"
+                       onChange={(e) => setLeft(parseInt(e.target.value))}/>
             </div>
             <div className="mb-3 col">
                 <label htmlFor="rightInput" className="form-label">Right operand:</label>
-                <input type="number" className="form-control" id="rightInput" onChange={handleRightChanged} />
+                <input type="number"
+                       className="form-control"
+                       id="rightInput"
+                       onChange={(e) => setRight(parseInt(e.target.value))} />
             </div>
             <button type="submit" className="btn btn-primary">Compute</button>
         </form>
